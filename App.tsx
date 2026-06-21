@@ -1,12 +1,10 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { Categories, Meals } from "./src/screens";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import {
-  createStaticNavigation,
-  NavigationContainer,
-} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Categories, Meals } from "./src/screens";
+import { CATEGORIES } from "./src/data";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,14 +14,33 @@ export default function App() {
       <SafeAreaProvider style={styles.container}>
         <SafeAreaView style={styles.container}>
           <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen name="categories" component={Categories} />
-              <Stack.Screen name="meals" component={Meals} />
+            <Stack.Navigator
+              screenOptions={{
+                contentStyle: { backgroundColor: "#291e4c" },
+                headerStyle: { backgroundColor: "#291e4c" },
+                headerBackTitle: "Back",
+                headerTintColor: "#fff",
+                headerTitleAlign: "center",
+              }}
+            >
+              <Stack.Screen
+                name="categories"
+                component={Categories}
+                options={{ title: "All Categories" }}
+              />
+              <Stack.Screen
+                name="meals"
+                component={Meals}
+                options={({ navigation, route }: any) => {
+                  const id = route.params.category;
+                  return { title: CATEGORIES.find((c) => c.id === id)?.title };
+                }}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </SafeAreaView>
       </SafeAreaProvider>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
     </View>
   );
 }
