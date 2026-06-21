@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { Categories } from "./src/screens";
+import { Categories, Meals } from "./src/screens";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import {
   createStaticNavigation,
@@ -17,7 +17,8 @@ export default function App() {
         <SafeAreaView style={styles.container}>
           <NavigationContainer>
             <Stack.Navigator>
-              <Stack.Screen name="Categories" component={Categories} />
+              <Stack.Screen name="categories" component={Categories} />
+              <Stack.Screen name="meals" component={Meals} />
             </Stack.Navigator>
           </NavigationContainer>
         </SafeAreaView>

@@ -8,7 +8,11 @@ import {
 } from "react-native";
 import { CATEGORIES } from "../../data";
 
-const Categories: React.FC = () => {
+type Props = {
+  navigation: Navigation;
+};
+
+const Categories: React.FC<Props> = ({ navigation }) => {
   return (
     <FlatList
       style={styles.container}
@@ -24,6 +28,9 @@ const Categories: React.FC = () => {
               styles.inner,
               pressed ? styles.pressed : {},
             ]}
+            onPress={() =>
+              navigation.navigate("meals", { category: item.id } as never)
+            }
           >
             <Text style={styles.text}>{item.title}</Text>
           </Pressable>
