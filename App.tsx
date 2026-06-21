@@ -3,8 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Categories, Meals } from "./src/screens";
-import { CATEGORIES } from "./src/data";
+import { Categories, MealDetails, Meals } from "./src/screens";
+import { CATEGORIES, MEALS } from "./src/data";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +34,14 @@ export default function App() {
                 options={({ navigation, route }: any) => {
                   const id = route.params.category;
                   return { title: CATEGORIES.find((c) => c.id === id)?.title };
+                }}
+              />
+              <Stack.Screen
+                name="mealDetails"
+                component={MealDetails}
+                options={({ navigation, route }: any) => {
+                  const id = route.params.mealId;
+                  return { title: MEALS.find((c) => c.id === id)?.title };
                 }}
               />
             </Stack.Navigator>
