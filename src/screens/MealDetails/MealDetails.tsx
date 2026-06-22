@@ -1,12 +1,37 @@
-import { Image, StyleSheet, Text, ScrollView } from "react-native";
+import { Image, StyleSheet, Text, ScrollView, Pressable } from "react-native";
 import { MEALS } from "../../data";
 import MealTags from "../../components/MealTags";
 import List from "../../components/List";
 import SubTitle from "../../components/SubTitle";
+import { useContext, useLayoutEffect } from "react";
+import { Star } from "lucide-react-native";
+import { FavoritesContext } from "../../store/context/FavoritesContext";
+import IconButton from "../../components/IconButton";
 
-const MealDetails = ({ route }: any) => {
+const MealDetails = ({ route, navigation }: any) => {
   const mealId = route.params.mealId;
   const meal = MEALS.find((m) => m.id === mealId);
+
+  const { ids, addFavorite, removeFavorite } = useContext(FavoritesContext);
+  const isFavorite = ids.includes(mealId);
+
+  const toggleAddToFavorites = (id: string) => {
+    isFavorite ? removeFavorite(id) : addFavorite(id);
+  };
+  console.log({ ids });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton
+          onPress={() => toggleAddToFavorites(mealId)}
+          icon={
+            <Star color={"#fff"} fill={isFavorite ? "white" : "transparent"} />
+          }
+        />
+      ),
+    });
+  }, [ids]);
 
   if (!meal) return null;
 
@@ -42,18 +67,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: "hidden",
     gap: 16,
-    // padding: 16,
     marginBottom: 0,
   },
   image: {
     width: "100%",
-    height: 150,
-    borderRadius: 8,
+    height: 220,
   },
   title: {
     color: "#816dd1",
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
+    marginTop: 12,
   },
 });

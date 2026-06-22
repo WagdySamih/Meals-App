@@ -7,6 +7,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Categories, Favorites, MealDetails, Meals } from "./src/screens";
 import { CATEGORIES, MEALS } from "./src/data";
 import { List, Star } from "lucide-react-native";
+import FavoriteContextProvider from "./src/store/context/FavoritesContext";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -53,41 +54,43 @@ const DrawerNavigator = () => (
 export default function App() {
   return (
     <View style={styles.container}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            contentStyle: { backgroundColor: "#291e4c" },
-            headerStyle: { backgroundColor: "#291e4c" },
-            headerBackTitle: "Back",
-            headerTintColor: "#fff",
-            headerTitleAlign: "center",
-          }}
-        >
-          <Stack.Screen
-            name="categories-2"
-            component={DrawerNavigator}
-            options={{
-              headerShown: false,
+      <FavoriteContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              contentStyle: { backgroundColor: "#291e4c" },
+              headerStyle: { backgroundColor: "#291e4c" },
+              headerBackTitle: "Back",
+              headerTintColor: "#fff",
+              headerTitleAlign: "center",
             }}
-          />
-          <Stack.Screen
-            name="meals"
-            component={Meals}
-            options={({ navigation, route }: any) => {
-              const id = route.params.category;
-              return { title: CATEGORIES.find((c) => c.id === id)?.title };
-            }}
-          />
-          <Stack.Screen
-            name="mealDetails"
-            component={MealDetails}
-            options={({ navigation, route }: any) => {
-              const id = route.params.mealId;
-              return { title: MEALS.find((c) => c.id === id)?.title };
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+          >
+            <Stack.Screen
+              name="categories-2"
+              component={DrawerNavigator}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="meals"
+              component={Meals}
+              options={({ navigation, route }: any) => {
+                const id = route.params.category;
+                return { title: CATEGORIES.find((c) => c.id === id)?.title };
+              }}
+            />
+            <Stack.Screen
+              name="mealDetails"
+              component={MealDetails}
+              options={({ navigation, route }: any) => {
+                const id = route.params.mealId;
+                return { title: MEALS.find((c) => c.id === id)?.title };
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FavoriteContextProvider>
       <StatusBar style="light" />
     </View>
   );
