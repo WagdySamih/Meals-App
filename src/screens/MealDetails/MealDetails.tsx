@@ -7,18 +7,23 @@ import { useContext, useLayoutEffect } from "react";
 import { Star } from "lucide-react-native";
 import { FavoritesContext } from "../../store/context/FavoritesContext";
 import IconButton from "../../components/IconButton";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, removeFavorite } from "../../store/redux/favorites";
 
 const MealDetails = ({ route, navigation }: any) => {
   const mealId = route.params.mealId;
   const meal = MEALS.find((m) => m.id === mealId);
 
-  const { ids, addFavorite, removeFavorite } = useContext(FavoritesContext);
+  // const { ids, addFavorite, removeFavorite } = useContext(FavoritesContext);
+  const ids = useSelector((state: any) => state?.favoritesMeals.ids);
+  const dispatch = useDispatch();
   const isFavorite = ids.includes(mealId);
 
   const toggleAddToFavorites = (id: string) => {
-    isFavorite ? removeFavorite(id) : addFavorite(id);
+    isFavorite
+      ? dispatch(removeFavorite({ id }))
+      : dispatch(addFavorite({ id }));
   };
-  console.log({ ids });
 
   useLayoutEffect(() => {
     navigation.setOptions({

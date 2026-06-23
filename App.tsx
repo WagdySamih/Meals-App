@@ -3,11 +3,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Categories, Favorites, MealDetails, Meals } from "./src/screens";
-import { CATEGORIES, MEALS } from "./src/data";
+import { Provider } from "react-redux";
+
 import { List, Star } from "lucide-react-native";
-import FavoriteContextProvider from "./src/store/context/FavoritesContext";
+import { CATEGORIES, MEALS } from "./src/data";
+import { Categories, Favorites, MealDetails, Meals } from "./src/screens";
+// import FavoriteContextProvider from "./src/store/context/FavoritesContext";
+import { store } from "./src/store/redux/store";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -54,7 +56,8 @@ const DrawerNavigator = () => (
 export default function App() {
   return (
     <View style={styles.container}>
-      <FavoriteContextProvider>
+      <Provider store={store}>
+        {/* <FavoriteContextProvider> */}
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
@@ -90,7 +93,8 @@ export default function App() {
             />
           </Stack.Navigator>
         </NavigationContainer>
-      </FavoriteContextProvider>
+        {/* </FavoriteContextProvider> */}
+      </Provider>
       <StatusBar style="light" />
     </View>
   );
