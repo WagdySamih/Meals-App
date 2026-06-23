@@ -6,11 +6,8 @@ import {
   Image,
   Platform,
 } from "react-native";
-import { useLayoutEffect } from "react";
-import { Bell } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
 import MealTags from "./MealTags";
-import IconButton from "./IconButton";
 import { Meal } from "../models";
 
 type Props = {
@@ -19,12 +16,6 @@ type Props = {
 
 const MealItem: React.FC<Props> = ({ meal }) => {
   const navigation = useNavigation<any>();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <IconButton icon={<Bell color={"#fff"} />} />,
-    });
-  }, []);
 
   return (
     <View style={styles.container}>
